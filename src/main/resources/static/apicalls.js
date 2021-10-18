@@ -79,16 +79,16 @@ async function fetchLotrCharacters(domElement) {
 }
 
 function assignValues() {
-    fetchData(randomChuckNorrisJokesUrl);
+    // fetchData(randomChuckNorrisJokesUrl);
     fetchData(randomRegularJokesUrl);
-    fetchData(randomDevJokesUrl);
-    fetchData(randomFriendsUrl);
-    fetchBooks('...','flowers', 'keyes');
-    fetchMovies(".", "titanic");
-    fetchData(harryPotterCharactersUrl);
-    fetchLotrCharacters("..");
-    fetchData(starwarsUrl);
-    fetchData(countriesCollection);
+    // fetchData(randomDevJokesUrl);
+    // fetchData(randomFriendsUrl);
+    // fetchBooks('...','flowers', 'keyes');
+    // fetchMovies(".", "titanic");
+    // fetchData(harryPotterCharactersUrl);
+    // fetchLotrCharacters("..");
+    // fetchData(starwarsUrl);
+    // fetchData(countriesCollection);
 
 }
 

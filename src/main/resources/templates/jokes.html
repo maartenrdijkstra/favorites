@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="header :: headerFragment"></div>
+<body>
+
+<div class="container text-center">
+    <br>
+
+    <h2>Pick a random joke</h2>
+    <a href="javascript: document.devJokeForm.submit()">Dev Joke</a>
+    <form th:action="@{/devJoke}" name="devJokeForm" hidden>
+        <button type="submit"></button>
+    </form>
+    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="javascript: document.chuckNorrisJokeForm.submit()">Chuck Norris Joke</a>
+
+    <form th:action="@{/chuckNorrisJoke}" name="chuckNorrisJokeForm" hidden>
+        <button type="submit"></button>
+    </form>
+    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="javascript: document.regularJokeForm.submit()">Regular Joke</a>
+    <form th:action="@{/regularJoke}" name="regularJokeForm" hidden>
+        <button type="submit"></button>
+    </form>
+
+    <br>
+    <br>
+    <br>
+    <p th:text="${jokeToAdd}" style="font-size: 30px; font-weight: bold"></p>
+    <br>
+
+    <div th:if="${jokeToAdd != ''} and ${jokeToAdd != null}">
+        <form th:action="@{/jokes}" method="post">
+            <input type="text" hidden th:value="${jokeToAdd}" name="jokeToAdd">
+            <button type="submit" class="btn btn-primary btn-sm">Add Joke</button>
+        </form>
+    </div>
+    <br>
+    <br>
+    <table class="table table-striped text-center">
+        <thead>
+        <tr>
+            <th class="text-start" style="font-size: large">Favorite Jokes</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${userJokes.empty}">
+            <td colspan="2"> No Jokes Available</td>
+        </tr>
+        <tr th:each="joke : ${userJokes}">
+            <td class="text-start"><span th:text="${joke.joke}"> Title </span></td>
+            <td>
+                <form th:action="@{/deleteJoke}" method="post">
+                    <input type="hidden" name="id" th:value="${joke.id}"/>
+                    <button style="font-size: small; background-color: red; color: white; font-weight: bold" name="id"
+                            type="submit">X
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:include="footer :: footerFragment"></div>
+</body>
+<script src="js/jokes.js"></script>
+</html>
