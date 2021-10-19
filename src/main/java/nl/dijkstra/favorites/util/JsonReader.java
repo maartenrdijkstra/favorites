@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Random;
 
 public class JsonReader {
 
@@ -19,7 +20,7 @@ public class JsonReader {
         return sb.toString();
     }
 
-    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+    private static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
@@ -31,7 +32,7 @@ public class JsonReader {
         }
     }
 
-    public static JSONArray readJsonArrayFromUrl(String url) throws IOException, JSONException {
+    private static JSONArray readJsonArrayFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
@@ -43,13 +44,36 @@ public class JsonReader {
         }
     }
 
-    public static String getJsonObjectAsString(String url) throws IOException {
+    public static String getJsonObjectString(String url) throws IOException {
         JSONObject jsonObject = JsonReader.readJsonFromUrl(url);
         return jsonObject.toString();
     }
 
-    public static String getFirstObjectJsonArrayAsString(String url) throws IOException {
+    public static String getJsonFirstObjectString(String url) throws IOException {
         JSONArray jsonArray = readJsonArrayFromUrl(url);
         return jsonArray.get(0).toString();
+    }
+
+    public static String readLocalJsonFile(String resource) throws IOException {
+        Reader reader = new FileReader(resource);
+
+        String line;
+        StringBuilder result = new StringBuilder();
+        try {
+            BufferedReader bufferreader = new BufferedReader(reader);
+            while ((line = bufferreader.readLine()) != null) {
+                result.append(line);
+                result.append("\n");
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return result.toString();
+    }
+
+    public static String getRandomJsonObjectString(String url) throws IOException {
+        JSONArray jsonArray = readJsonArrayFromUrl(url);
+        Random r = new Random();
+        return jsonArray.get(r.nextInt(jsonArray.length())).toString();
     }
 }

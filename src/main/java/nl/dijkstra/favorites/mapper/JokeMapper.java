@@ -17,23 +17,23 @@ public class JokeMapper {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
-    public String getDevJoke() throws IOException {
-        String devJokeString = JsonReader.getFirstObjectJsonArrayAsString("https://backend-omega-seven.vercel.app/api/getjoke");
+    public static String getDevJoke() throws IOException {
+        String devJokeString = JsonReader.getJsonFirstObjectString("https://backend-omega-seven.vercel.app/api/getjoke");
 
         Map<String, String> map = mapper.readValue(devJokeString, HashMap.class);
 
         return map.get("question") + "\n" + map.get("punchline");
     }
 
-    public String getChuckNorrisJoke() throws IOException {
-        String chuckNorrisJokeString = JsonReader.getJsonObjectAsString("https://geek-jokes.sameerkumar.website/api?format=json");
+    public static String getChuckNorrisJoke() throws IOException {
+        String chuckNorrisJokeString = JsonReader.getJsonObjectString("https://geek-jokes.sameerkumar.website/api?format=json");
 
         Map<String, String> map = mapper.readValue(chuckNorrisJokeString, HashMap.class);
 
         return map.get("joke");
     }
 
-    public String getRegularJoke() throws IOException {
+    public static String getRegularJoke() throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet("https://icanhazdadjoke.com");
         String json = "{\"id\":\"CIt49pjG6wc\",\"joke\":\"Why don’t skeletons ever go trick or treating? Because they have nobody to go with..com\", \"status\": 200}";

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="header :: headerFragment"></div>
+<body>
+
+<div class="container text-center">
+    <br>
+
+    <h2>Pick a random quote</h2>
+    <a href="javascript: document.movieQuoteForm.submit()">Movie / TV</a>
+    <form th:action="@{/movieQuote}" name="movieQuoteForm" hidden>
+        <button type="submit"></button>
+    </form>
+    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="javascript: document.wisdomQuoteForm.submit()">Wisdom</a>
+
+    <form th:action="@{/wisdomQuote}" name="wisdomQuoteForm" hidden>
+        <button type="submit"></button>
+    </form>
+    <br>
+    <br>
+    <br>
+    <div th:if="${quoteToAdd != null} and ${quoteToAdd.source != null}">
+        <p th:text=" ${quoteToAdd.favoriteQuote}  + ' - '+ ${quoteToAdd.source}"
+           style="font-size: 30px; font-weight: bold"></p>
+    </div>
+    <div th:if="${quoteToAdd != null} and ${quoteToAdd.source == null}">
+        <p th:text=" ${quoteToAdd.favoriteQuote} " style="font-size: 30px; font-weight: bold"></p>
+    </div>
+    <br>
+
+    <div th:if="${quoteToAdd != null}">
+        <form action="#" th:action="@{/quotes}" method="post" th:object="${quoteToAdd}">
+            <input type="text" hidden th:field="*{favoriteQuote}" name="favoriteQuote">
+            <input type="text" hidden th:field="*{source}" name="source">
+            <button type="submit" class="btn btn-primary btn-sm">Add Quote</button>
+        </form>
+    </div>
+
+    <br>
+    <br>
+    <table class="table table-striped text-center">
+        <thead>
+        <tr>
+            <th class="text-start" style="font-size: large">Favorite Jokes</th>
+            <th class="text-start" style="font-size: large">Source</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${userQuotes.empty}">
+            <td colspan="2"> No Jokes Available</td>
+        </tr>
+        <tr th:each="quote : ${userQuotes}">
+            <td class="text-start"><span th:text="${quote.getFavoriteQuote}"></span></td>
+            <td class="text-start"><span th:if="${quote.getSource != null}" th:text="${quote.getSource}"></span></td>
+            <td>
+                <form th:action="@{/deleteQuote}" method="post">
+                    <input type="hidden" name="id" th:value="${quote.id}"/>
+                    <button style="font-size: small; background-color: black; color: white; font-weight: bold" name="id"
+                            type="submit">X
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:include="footer :: footerFragment"></div>
+</body>
+</html>

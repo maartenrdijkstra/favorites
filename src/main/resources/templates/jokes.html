@@ -49,11 +49,11 @@
             <td colspan="2"> No Jokes Available</td>
         </tr>
         <tr th:each="joke : ${userJokes}">
-            <td class="text-start"><span th:text="${joke.joke}"> Title </span></td>
+            <td class="text-start"><span th:text="${joke.favoriteJoke}"> Title </span></td>
             <td>
                 <form th:action="@{/deleteJoke}" method="post">
                     <input type="hidden" name="id" th:value="${joke.id}"/>
-                    <button style="font-size: small; background-color: red; color: white; font-weight: bold" name="id"
+                    <button style="font-size: small; background-color: black; color: white; font-weight: bold" name="id"
                             type="submit">X
                     </button>
                 </form>
@@ -64,5 +64,4 @@
 </div>
 <div th:include="footer :: footerFragment"></div>
 </body>
-<script src="js/jokes.js"></script>
 </html>

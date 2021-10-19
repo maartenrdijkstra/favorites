@@ -1,10 +1,6 @@
 package nl.dijkstra.favorites.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,39 +9,29 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Table
 public class Joke {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private long id;
+    private Long id;
 
     @Column
-    private String joke;
+    private String favoriteJoke;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Joke(String joke, User user) {
-        this.joke = joke;
+    public Joke(String favoriteJoke, User user) {
+        this.favoriteJoke = favoriteJoke;
         this.user = user;
     }
 
-    public Joke(String joke) {
-        this.joke = joke;
-    }
-
-    @Override
-    public String toString() {
-        return "Joke{" +
-                "joke='" + joke + '\'' +
-                '}';
-    }
-
-    @JsonBackReference
-    public User getUser() {
-        return user;
+    public Joke(String favoriteJoke) {
+        this.favoriteJoke = favoriteJoke;
     }
 }

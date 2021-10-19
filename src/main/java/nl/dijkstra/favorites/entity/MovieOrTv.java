@@ -12,7 +12,7 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 @Table
-public class Country {
+public class MovieOrTv {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +20,18 @@ public class Country {
     private Long id;
 
     @Column
-    private String name;
+    private String title;
+
+    @Column
+    private String year;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Country(String name, User user) {
-        this.name = name;
+    public MovieOrTv(String title, String year, User user) {
+        this.title = title;
+        this.year = year;
         this.user = user;
     }
 }

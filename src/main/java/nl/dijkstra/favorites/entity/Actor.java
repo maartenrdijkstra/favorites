@@ -12,7 +12,7 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 @Table
-public class Country {
+public class Actor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +26,9 @@ public class Country {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Country(String name, User user) {
+    public Actor(String name, User user) {
         this.name = name;
         this.user = user;
     }
 }
+

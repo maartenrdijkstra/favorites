@@ -1,7 +1,7 @@
 //TODO Load URLs and keys from external file
 const googleBooksApiKey = "AIzaSyAOsteuaW5ifVvA_RkLXh0mYs6GLAD6ykc";
 const omdbApiKey = "e39217d";
-const lotrApiKey = "mjdxc8VTUmJ9MOHlbH4M";
+// const lotrApiKey = "mjdxc8VTUmJ9MOHlbH4M";
 
 const randomChuckNorrisJokesUrl = "https://geek-jokes.sameerkumar.website/api?format=json";
 const randomRegularJokesUrl = "https://icanhazdadjoke.com";
@@ -10,9 +10,9 @@ const randomFriendsUrl = "https://friends-quotes-api.herokuapp.com/quotes/random
 const inspirationalQuotesCollectionUrl = "https://type.fit/api/quotes";
 const movieAndTVQuotesCollection = "resources/movie-quotes.json";
 const movieCollectionUrl = "https://omdbapi.com"
-const harryPotterCharactersUrl = "http://hp-api.herokuapp.com/api/characters";
-const lotrCharactersUrl = "https://the-one-api.dev/v2/character";
-const starwarsUrl = "https://swapi.dev/api/people";
+// const harryPotterCharactersUrl = "http://hp-api.herokuapp.com/api/characters";
+// const lotrCharactersUrl = "https://the-one-api.dev/v2/character";
+// const starwarsUrl = "https://swapi.dev/api/people";
 const googleBooksUrl = "https://www.googleapis.com/books/v1/volumes";
 const countriesCollection = "resources/countries.json";
 
