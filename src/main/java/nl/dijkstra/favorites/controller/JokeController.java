@@ -67,7 +67,7 @@ public class JokeController {
         model.addAttribute("pageTitle", "Favorite jokes");
         model.addAttribute("jokeToAdd", JokeMapper.getDevJoke());
 
-        return "/jokes";
+        return "jokes";
     }
 
     @GetMapping("chuckNorrisJoke")
@@ -78,7 +78,7 @@ public class JokeController {
         model.addAttribute("pageTitle", "Favorite jokes");
         model.addAttribute("jokeToAdd", JokeMapper.getChuckNorrisJoke());
 
-        return "/jokes";
+        return "jokes";
     }
 
     @GetMapping("regularJoke")
@@ -89,6 +89,6 @@ public class JokeController {
         model.addAttribute("pageTitle", "Favorite jokes");
         model.addAttribute("jokeToAdd", JokeMapper.getRegularJoke());
 
-        return "/jokes";
+        return "jokes";
     }
 }

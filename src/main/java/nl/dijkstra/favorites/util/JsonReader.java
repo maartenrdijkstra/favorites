@@ -20,7 +20,7 @@ public class JsonReader {
         return sb.toString();
     }
 
-    private static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
@@ -32,7 +32,7 @@ public class JsonReader {
         }
     }
 
-    private static JSONArray readJsonArrayFromUrl(String url) throws IOException, JSONException {
+    public static JSONArray readJsonArrayFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));

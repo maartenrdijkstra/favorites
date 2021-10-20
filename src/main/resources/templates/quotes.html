@@ -48,8 +48,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${userQuotes.empty}">
-            <td colspan="2"> No Jokes Available</td>
+        <tr th:if="${userQuotes.isEmpty}">
+            <td colspan="3"> No Quotes Available</td>
         </tr>
         <tr th:each="quote : ${userQuotes}">
             <td class="text-start"><span th:text="${quote.getFavoriteQuote}"></span></td>

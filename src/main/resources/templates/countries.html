@@ -18,15 +18,12 @@
         </div>
     </table>
 
-    <table th:if="${filteredCountries != null} and ${keyword != null}" class="table table-striped text-center">
+    <table th:if="${filteredCountries != null} and ${keyword != null} and !${filteredCountries.empty}" class="table table-striped text-center">
         <thead>
         <th class="text-start" style="font-size: large">Select Your Favorite Country</th>
         <th>Add to Favorites</th>
         </thead>
         <tbody>
-        <tr th:if="${filteredCountries} == empty">
-            <td colspan="2"> No Countries Match Your Query</td>
-        </tr>
         <tr th:if="${filteredCountries} != empty" th:each="c : ${filteredCountries}">
             <td class="text-start"><span th:text="${c.name}"> </span></td>
             <form action="#" th:action="@{/countries}" method="post">

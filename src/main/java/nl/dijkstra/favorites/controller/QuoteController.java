@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class QuoteController {
@@ -24,11 +23,12 @@ public class QuoteController {
     private QuoteRepository quoteRepository;
 
     @GetMapping("quotes")
-    public List<Quote> getUserJokes(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) {
+    public String getUserQuotes(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) {
         User user = User.builder().id(loggedUser.getId()).build();
         model.addAttribute("userQuotes", quoteRepository.getQuotesByUser(user));
         model.addAttribute("pageTitle", "Favorite quotes");
-        return quoteRepository.findAll();
+
+        return "quotes";
     }
 
     @PostMapping(value = "quotes")

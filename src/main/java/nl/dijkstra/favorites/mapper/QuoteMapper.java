@@ -11,7 +11,7 @@ import static nl.dijkstra.favorites.util.JsonReader.readLocalJsonFile;
 
 public class QuoteMapper {
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static Quote getRandomMovieQuote() throws IOException {
         String jsonArray = readLocalJsonFile("src/main/resources/static/json/movie-quotes.json");
@@ -20,6 +20,7 @@ public class QuoteMapper {
         Random rand = new Random();
         Map<String, String> randomQuote = listMap.get(rand.nextInt(listMap.size()));
 
+
         return Quote.builder()
                 .favoriteQuote("\"" + randomQuote.get("quote") + "\"")
                 .source(randomQuote.get("author") + " (" + randomQuote.get("source") + ")")
@@ -27,12 +28,18 @@ public class QuoteMapper {
     }
 
     public static Quote getWisdomQuote() throws IOException {
-        String json = JsonReader.getRandomJsonObjectString("https://type.fit/api/quotes");
-        Map<String, String> map = mapper.readValue(json, HashMap.class);
-
+        try {
+            String json = JsonReader.getRandomJsonObjectString("https://type.fit/api/quotes");
+            Map<String, String> map = mapper.readValue(json, HashMap.class);
         return Quote.builder()
                 .favoriteQuote("\"" + map.get("text") + "\"")
                 .source(map.get("author"))
                 .build();
+        } catch (Exception e) {
+            return Quote.builder()
+                    .favoriteQuote("Nothing is impossible, the word itself says 'I'm possible'!")
+                    .source("Audrey Hepburn")
+                    .build();
+        }
     }
 }

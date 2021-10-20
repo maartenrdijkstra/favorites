@@ -5,6 +5,8 @@
 <div class="container-fluid">
     <br>
     <br>
+    <h2 class="text-center">Search and add your favorite actors</h2>
+    <br>
 
     <table class="table table-striped table-responsive text-center" id="actorsTable">
         <div class="text-center">
@@ -25,7 +27,7 @@
         </thead>
         <tbody>
         <tr th:if="${filteredActors} == empty">
-            <td colspan="2"> No Actors Match Your Query</td>
+            <td colspan="2"> Sorry. no actors match your query. Only 500 actors are stored.</td>
         </tr>
         <tr th:if="${filteredActors} != empty" th:each="a : ${filteredActors}">
             <td class="text-start"><span th:text="${a.name}"> </span></td>
