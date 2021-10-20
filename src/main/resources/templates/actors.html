@@ -26,10 +26,10 @@
         <th>Add to Favorites</th>
         </thead>
         <tbody>
-        <tr th:if="${filteredActors} == empty">
+        <tr th:if="${filteredActors.empty}">
             <td colspan="2"> Sorry. no actors match your query. Only 500 actors are stored.</td>
         </tr>
-        <tr th:if="${filteredActors} != empty" th:each="a : ${filteredActors}">
+        <tr th:if="${!filteredActors.empty}" th:each="a  : ${filteredActors}">
             <td class="text-start"><span th:text="${a.name}"> </span></td>
             <form action="#" th:action="@{/actors}" method="post">
                 <input hidden type="text" name="name" th:value="${a.name}">
@@ -43,7 +43,7 @@
         </tbody>
     </table>
 
-    <table class="table table-striped table-responsive text-center">
+    <table class="table table-striped table-responsive text-center" th:if="${not userActors.empty}">
         <thead>
         <tr>
             <th class="text-start" style="font-size: large">Favorite Actors</th>

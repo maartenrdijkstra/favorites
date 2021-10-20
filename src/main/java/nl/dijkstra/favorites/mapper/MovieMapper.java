@@ -21,7 +21,7 @@ public class MovieMapper {
         Properties properties = new Properties();
         properties.load(input);
 
-        return properties.getProperty("MOVIES_AND_TV_API_KEY");
+        return properties.getProperty("MOVIES_API_KEY");
     }
 
     private static String getMoviesRequestUrl(String query) throws IOException {

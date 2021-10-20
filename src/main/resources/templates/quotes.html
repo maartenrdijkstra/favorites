@@ -39,18 +39,15 @@
 
     <br>
     <br>
-    <table class="table table-striped text-center">
+    <table class="table table-striped text-center" th:if="${!userQuotes.empty}">
         <thead>
         <tr>
-            <th class="text-start" style="font-size: large">Favorite Jokes</th>
+            <th class="text-start" style="font-size: large">Favorite Quotes</th>
             <th class="text-start" style="font-size: large">Source</th>
             <th>Delete</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${userQuotes.isEmpty}">
-            <td colspan="3"> No Quotes Available</td>
-        </tr>
         <tr th:each="quote : ${userQuotes}">
             <td class="text-start"><span th:text="${quote.getFavoriteQuote}"></span></td>
             <td class="text-start"><span th:if="${quote.getSource != null}" th:text="${quote.getSource}"></span></td>

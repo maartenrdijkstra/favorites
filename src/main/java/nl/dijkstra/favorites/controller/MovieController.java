@@ -35,9 +35,8 @@ public class MovieController {
 
         if (keyword != null) {
             movies = MovieMapper.getMovies(keyword);
-        } else {
-            model.addAttribute("incorrectQuery", "Please be more specific");
         }
+
         model.addAttribute("filteredMovies", movies);
 
         return "movies";

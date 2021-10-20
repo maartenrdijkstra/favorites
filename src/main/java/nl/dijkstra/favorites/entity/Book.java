@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,17 +25,13 @@ public class Book {
     @Column
     private String author;
 
-    @Column
-    private int year;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Book(String title, String author, int year, User user) {
+    public Book(String title, String author, User user) {
         this.title = title;
         this.author = author;
-        this.year = year;
         this.user = user;
     }
 }

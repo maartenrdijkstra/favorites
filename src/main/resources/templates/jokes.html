@@ -37,7 +37,7 @@
     </div>
     <br>
     <br>
-    <table class="table table-striped text-center">
+    <table class="table table-striped text-center" th:if="${!userJokes.empty}">
         <thead>
         <tr>
             <th class="text-start" style="font-size: large">Favorite Jokes</th>
@@ -45,9 +45,6 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:if="${userJokes.empty}">
-            <td colspan="2"> No Jokes Available</td>
-        </tr>
         <tr th:each="joke : ${userJokes}">
             <td class="text-start"><span th:text="${joke.favoriteJoke}"> Title </span></td>
             <td>
