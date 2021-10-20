@@ -2,10 +2,11 @@ package nl.dijkstra.favorites.controller;
 
 import nl.dijkstra.favorites.entity.Actor;
 import nl.dijkstra.favorites.entity.User;
-import nl.dijkstra.favorites.mapper.ActorMapper;
 import nl.dijkstra.favorites.repository.ActorRepository;
 import nl.dijkstra.favorites.security.CustomUserDetails;
+import nl.dijkstra.favorites.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,22 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
-
 @Controller
 public class ActorController {
 
     @Autowired
     private ActorRepository actorRepository;
 
-    @GetMapping("/actors")
-    public String getUserActors(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) {
-        User user = User.builder().id(loggedUser.getId()).build();
-        model.addAttribute("userActors", actorRepository.getActorsByUser(user));
-        model.addAttribute("pageTitle", "Favorite actors");
-
-        return "actors";
-    }
+    @Autowired
+    private ActorService actorService;
 
     @PostMapping("/deleteActor")
     public String deleteActor(@RequestParam Long id) {
@@ -38,23 +31,30 @@ public class ActorController {
         return "redirect:/actors";
     }
 
-    @GetMapping("/actorsFiltered")
-    public String getActorsFiltered(Model model, String keyword) throws IOException {
-        model.addAttribute("allActors", ActorMapper.getAllActors());
-        model.addAttribute("pageTitle", "Actors Filtered");
+    @GetMapping("actors")
+    public String getActors(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model, @Param("keyword") String keyword) {
 
-        return "actorsFiltered";
+        model.addAttribute("pageTitle", "Favorite actors");
+        model.addAttribute("keyword", keyword);
+        User user = User.builder().id(loggedUser.getId()).build();
+        model.addAttribute("userActors", actorService.getActorsByUser(user));
+
+        if (keyword != null) {
+            model.addAttribute("filteredActors", actorService.filterActors(keyword));
+        }
+
+        return "actors";
     }
-//
-//    @GetMapping("/listActors")
-//    public String listActors(
-//            Model model,
-//            @RequestParam("page") Optional<Integer> page,
-//            @RequestParam("size") Optional<Integer> size) {
-//        int currentPage = page.orElse(1);
-//        int pageSize = size.orElse(5);
-//
-//        Page<Actor> actorPage
-//    }
 
+    @PostMapping(value = "actors")
+    public String addActorToUser(@RequestParam("name") String name,
+                                 @AuthenticationPrincipal CustomUserDetails loggedUser) {
+        Actor actorToAdd = Actor.builder()
+                .name(name)
+                .user(User.builder().id(loggedUser.getId()).build())
+                .build();
+        actorRepository.save(actorToAdd);
+
+        return "redirect:/actors";
+    }
 }

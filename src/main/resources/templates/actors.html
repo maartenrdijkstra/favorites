@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="header :: headerFragment"></div>
+<body>
+<div class="container-fluid">
+    <br>
+    <br>
+
+    <table class="table table-striped table-responsive text-center" id="actorsTable">
+        <div class="text-center">
+            <form th:action="@{/actors}">
+                <input type="text" name="keyword" id="keyword" size="30" th:value="${keyword}"
+                       required/>
+                &nbsp;
+                <input type="submit" value="Search"/>
+                &nbsp;
+            </form>
+        </div>
+    </table>
+
+    <table th:if="${filteredActors != null} and ${keyword != null}" class="table table-striped text-center">
+        <thead>
+        <th class="text-start" style="font-size: large">Select Your Favorite Actor</th>
+        <th>Add to Favorites</th>
+        </thead>
+        <tbody>
+        <tr th:if="${filteredActors} == empty">
+            <td colspan="2"> No Actors Match Your Query</td>
+        </tr>
+        <tr th:if="${filteredActors} != empty" th:each="a : ${filteredActors}">
+            <td class="text-start"><span th:text="${a.name}"> </span></td>
+            <form action="#" th:action="@{/actors}" method="post">
+                <input hidden type="text" name="name" th:value="${a.name}">
+                <td>
+                    <button type="submit" style="color:darkblue; font-size: x-large; background-color: transparent">
+                        Add
+                    </button>
+                </td>
+            </form>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped table-responsive text-center">
+        <thead>
+        <tr>
+            <th class="text-start" style="font-size: large">Favorite Actors</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${userActors.empty}">
+            <td colspan="2"> No Actors Available</td>
+        </tr>
+        <tr th:each="actor : ${userActors}">
+            <td class="text-start"><span th:text="${actor.name}"> Title </span></td>
+            <td>
+                <form th:action="@{/deleteActor}" method="post">
+                    <input type="hidden" name="id" th:value="${actor.id}"/>
+                    <button style="font-size: small; background-color: black; color: white; font-weight: bold"
+                            name="id"
+                            type="submit">X
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:include="footer :: footerFragment"></div>
+</body>
+</html>

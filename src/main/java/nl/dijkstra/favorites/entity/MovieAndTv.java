@@ -12,7 +12,7 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 @Table
-public class MovieOrTv {
+public class MovieAndTv {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class MovieOrTv {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public MovieOrTv(String title, String year, User user) {
+    public MovieAndTv(String title, String year, User user) {
         this.title = title;
         this.year = year;
         this.user = user;
