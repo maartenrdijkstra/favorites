@@ -42,6 +42,6 @@ public class CountryService {
     }
 
     public List<Country> getCountriesByUser(User user) {
-        return countryRepository.getCountriesByUser(user);
+        return countryRepository.getCountriesByUserOrderByIdDesc(user);
     }
 }

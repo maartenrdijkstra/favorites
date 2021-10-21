@@ -2,23 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:include="header :: headerFragment"></div>
 <body>
-<div class="container-fluid">
+<div class="container text-center">
     <br>
     <br>
     <h2 class="text-center">Search and add your favorite actors</h2>
     <br>
 
-    <table class="table table-striped table-responsive text-center" id="actorsTable">
-        <div class="text-center">
-            <form th:action="@{/actors}">
-                <input type="text" name="keyword" id="keyword" size="30" th:value="${keyword}"
-                       required/>
-                &nbsp;
-                <input type="submit" value="Search"/>
-                &nbsp;
-            </form>
-        </div>
-    </table>
+    <div class="text-center">
+        <form th:action="@{/actors}">
+            <input type="text" name="keyword" id="keyword" size="30" th:value="${keyword}" required/>
+            <input class="btn btn-sm btn-primary" type="submit" value="Search"/>
+        </form>
+    </div>
+
+    <div class="text-center" th:if="${filteredActors == null} and ${keyword != null}">
+        <br>
+        <p>This actor could not be found. Add your own actor below.</p>
+        <form action="#" th:action="@{/actors}" method="post">
+            <input type="text" th:value="${name}" size="30" name="name" required id="inputOwnActor">
+            <button class="btn btn-sm btn-primary" type="submit">Add</button>
+        </form>
+    </div>
 
     <table th:if="${filteredActors != null} and ${keyword != null}" class="table table-striped text-center">
         <thead>
@@ -26,10 +30,8 @@
         <th>Add to Favorites</th>
         </thead>
         <tbody>
-        <tr th:if="${filteredActors.empty}">
-            <td colspan="2"> Sorry. no actors match your query. Only 500 actors are stored.</td>
-        </tr>
-        <tr th:if="${!filteredActors.empty}" th:each="a  : ${filteredActors}">
+
+        <tr th:each="a  : ${filteredActors}">
             <td class="text-start"><span th:text="${a.name}"> </span></td>
             <form action="#" th:action="@{/actors}" method="post">
                 <input hidden type="text" name="name" th:value="${a.name}">
@@ -70,5 +72,10 @@
     </table>
 </div>
 <div th:include="footer :: footerFragment"></div>
+<script type="text/javascript">
+        let inputVal = document.getElementById("keyword");
+        document.getElementById("inputOwnActor").value = inputVal.value;
+        inputVal.value = "";
+</script>
 </body>
 </html>

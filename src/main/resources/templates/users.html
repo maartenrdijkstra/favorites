@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:include="header :: headerFragment"></div>
+<body>
+<div class="container text-center">
+    <br>
+    <h2>View everyone's favorites here!</h2>
+    <ul style="display: inline" th:each="selectedUser : ${users}">
+        <form style="display: inline" th:object="${selectedUser}" th:action="@{/viewUsersFavorites}" method="get">
+            <input th:value="${selectedUser.id}" name="selectedUserId" readonly style="border: 0; font-size: 1em" type="text" hidden>
+            <input type="submit" style="color: black; background-color: transparent; border: white"
+                   th:value="${selectedUser.name}">
+        </form>
+    </ul>
+
+
+    <ul style="display: block">
+        <li style="display: inline-block"><a></a></li>
+    </ul>
+
+    <div th:if="${selectedUser != null}" class="text-center">
+
+        <p th:if="${books.empty} and ${movies.empty} and ${actors.empty} and ${quotes.empty} and ${jokes.empty} and ${countries.empty}">
+            This user hasn't stored any favorites!
+        </p>
+
+        <!--    Books -->
+        <table th:if="${!books.empty}" class="table table-striped table-responsive text-center align-middle">
+            <thead>
+            <tr>
+                <th class="text-start" style="font-size: large">Favorite Books of <span
+                        th:text="${selectedUser.name}"></span></th>
+                <th class="text-start">Author</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td class="text-start"><span th:text="${book.title}"> Title </span></td>
+                <td class="text-start"><span th:text="${book.author}"> Year </span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--    Movies -->
+        <table th:if="${!movies.empty}" class="table table-striped text-center">
+            <thead>
+            <tr>
+                <th class="text-start" style="font-size: large">Favorite Movies of <span
+                        th:text="${selectedUser.name}"></span></th>
+                <th class="text-start">Year</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="movie : ${movies}">
+                <td class="text-start"><span th:text="${movie.title}"> Movie </span></td>
+                <td class="text-start"><span th:text="${movie.year}"> Year </span></td>
+            </tr>
+            </tbody>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--    Actors -->
+        <table th:if="${!actors.empty}" class="table table-striped table-responsive text-center">
+            <thead>
+            <tr>
+                <th class="text-start" style="font-size: large">Favorite Actors of <span th:text="${selectedUser.name}"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="actor : ${actors}">
+                <td class="text-start"><span th:text="${actor.name}"> Title </span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--    Quotes -->
+        <table th:if="${!quotes.empty}" class="table table-striped text-center">
+            <thead>
+            <tr>
+                <th class="text-start" style="font-size: large">Favorite Quotes of <span th:text="${selectedUser.name}"></span></th>
+                <th class="text-start">Author</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="quote : ${quotes}">
+                <td class="text-start"><span th:text="${quote.favoriteQuote}"> Quote </span></td>
+                <td class="text-start"><span th:text="${quote.source}"> Source </span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--    Jokes-->
+        <table th:if="${!jokes.empty}" class="table table-striped text-center">
+            <thead>
+            <tr>
+                <th class="text-start">Favorite Jokes of <span th:text="${selectedUser.name}"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="joke : ${jokes}">
+                <td class="text-start"><span th:text="${joke.favoriteJoke}"> Joke </span></td>
+            </tr>
+            </tbody>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--    Countries-->
+        <table th:if="${!countries.empty}" class="table table-striped text-center">
+            <thead>
+            <tr>
+                <th class="text-start">Favorite Countries of <span th:text="${selectedUser.name}"></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="country : ${countries}">
+                <td class="text-start"><span th:text="${country.name}"> Country </span></td>
+            </tr>
+            </tbody>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:include="footer :: footerFragment"></div>
+</body>
+</html>

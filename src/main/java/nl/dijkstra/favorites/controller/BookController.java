@@ -27,7 +27,7 @@ public class BookController {
     @GetMapping("books")
     public String getUserBooks(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model, @Param("keyword") String keyword) throws IOException {
         User user = User.builder().id(loggedUser.getId()).build();
-        model.addAttribute("userBooks", bookRepository.getBooksByUser(user));
+        model.addAttribute("userBooks", bookRepository.getBooksByUserOrderByIdDesc(user));
         model.addAttribute("pageTitle", "Favorite books");
         model.addAttribute("keyword", keyword);
 

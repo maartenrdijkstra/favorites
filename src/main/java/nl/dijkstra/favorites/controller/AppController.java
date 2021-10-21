@@ -29,8 +29,9 @@ public class AppController {
     private UserValidator userValidator;
 
     @GetMapping("")
-    public String viewHomePage(Model model) {
+    public String viewHomePage(Model model, @AuthenticationPrincipal CustomUserDetails loggedUser) {
         model.addAttribute("pageTitle", "Welcome - Favorites App");
+        model.addAttribute("loggedIn", loggedUser);
         return "index";
     }
 

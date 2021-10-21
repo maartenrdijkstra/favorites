@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class CountryController {
 
@@ -33,14 +35,16 @@ public class CountryController {
 
     @GetMapping("countries")
     public String getCountries(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model, @Param("keyword") String keyword) {
-
         model.addAttribute("pageTitle", "Favorite countries");
         model.addAttribute("keyword", keyword);
         User user = User.builder().id(loggedUser.getId()).build();
         model.addAttribute("userCountries", countryService.getCountriesByUser(user));
 
         if (keyword != null) {
-            model.addAttribute("filteredCountries", countryService.filterCountries(keyword));
+            List<Country> countries = countryService.filterCountries(keyword);
+            if (countries.size() > 0) {
+                model.addAttribute("filteredCountries", countries);
+            }
         }
 
         return "countries";
@@ -48,7 +52,7 @@ public class CountryController {
 
     @PostMapping(value = "countries")
     public String addCountryToUser(@RequestParam("name") String name,
-                                 @AuthenticationPrincipal CustomUserDetails loggedUser) {
+                                   @AuthenticationPrincipal CustomUserDetails loggedUser) {
         Country countryToAdd = Country.builder()
                 .name(name)
                 .user(User.builder().id(loggedUser.getId()).build())

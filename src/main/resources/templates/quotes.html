@@ -7,35 +7,50 @@
     <br>
 
     <h2>Pick a random quote</h2>
-    <a href="javascript: document.movieQuoteForm.submit()">Movie / TV</a>
+    <a href="javascript: hideOwnQuoteDisplayRandomQuote(); document.movieQuoteForm.submit();">Movie / TV</a>
     <form th:action="@{/movieQuote}" name="movieQuoteForm" hidden>
         <button type="submit"></button>
     </form>
     &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <a href="javascript: document.wisdomQuoteForm.submit()">Wisdom</a>
-
+    <a href="javascript: hideOwnQuoteDisplayRandomQuote(); document.wisdomQuoteForm.submit();">Wisdom</a>
     <form th:action="@{/wisdomQuote}" name="wisdomQuoteForm" hidden>
         <button type="submit"></button>
     </form>
-    <br>
-    <br>
-    <br>
-    <div th:if="${quoteToAdd != null} and ${quoteToAdd.source != null}">
-        <p th:text=" ${quoteToAdd.favoriteQuote}  + ' - '+ ${quoteToAdd.source}"
-           style="font-size: 30px; font-weight: bold"></p>
-    </div>
-    <div th:if="${quoteToAdd != null} and ${quoteToAdd.source == null}">
-        <p th:text=" ${quoteToAdd.favoriteQuote} " style="font-size: 30px; font-weight: bold"></p>
-    </div>
-    <br>
+    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a th:action="@{/ownQuote}" href="javascript: displayOwnQuoteHideRandomQuote()">Add your own quote</a>
+    <br><br><br>
 
-    <div th:if="${quoteToAdd != null}">
-        <form action="#" th:action="@{/quotes}" method="post" th:object="${quoteToAdd}">
-            <input type="text" hidden th:field="*{favoriteQuote}" name="favoriteQuote">
-            <input type="text" hidden th:field="*{source}" name="source">
+    <div class="text-center" id="addQuote" style="display: none">
+        <form action="#" th:action="@{/quotes}" method="post">
+            <label for="ownQuote">Quote:</label>&nbsp;&nbsp;&nbsp;<input id="ownQuote" type="text" name="ownQuote"
+                                                                         size="60" th:value="${ownQuote}" required/>
+            <br><br>
+            <label for="ownSource">Source:</label>&nbsp;&nbsp;<input id="ownSource" type="text" name="ownSource"
+                                                                     size="60" th:value="${ownSource}" required/>
+            <br><br>
             <button type="submit" class="btn btn-primary btn-sm">Add Quote</button>
         </form>
     </div>
+    <br>
+    <div id="randomQuote">
+        <div th:if="${quoteToAdd != null} and ${quoteToAdd.source != null}">
+            <p th:text=" ${quoteToAdd.favoriteQuote}  + ' - '+ ${quoteToAdd.source}"
+               style="font-size: 30px; font-weight: bold"></p>
+        </div>
+        <div th:if="${quoteToAdd != null} and ${quoteToAdd.source == null}">
+            <p th:text=" ${quoteToAdd.favoriteQuote} " style="font-size: 30px; font-weight: bold"></p>
+        </div>
+        <br>
+
+        <div th:if="${quoteToAdd != null}">
+            <form action="#" th:action="@{/quotes}" method="post" th:object="${quoteToAdd}">
+                <input type="text" hidden th:field="*{favoriteQuote}" name="favoriteQuote">
+                <input type="text" hidden th:field="*{source}" name="source">
+                <button type="submit" class="btn btn-primary btn-sm">Add Quote</button>
+            </form>
+        </div>
+    </div>
+
 
     <br>
     <br>
@@ -44,14 +59,14 @@
         <tr>
             <th class="text-start" style="font-size: large">Favorite Quotes</th>
             <th class="text-start" style="font-size: large">Source</th>
-            <th>Delete</th>
+            <th class="text-start">Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="quote : ${userQuotes}">
             <td class="text-start"><span th:text="${quote.getFavoriteQuote}"></span></td>
             <td class="text-start"><span th:if="${quote.getSource != null}" th:text="${quote.getSource}"></span></td>
-            <td>
+            <td class="text-start">
                 <form th:action="@{/deleteQuote}" method="post">
                     <input type="hidden" name="id" th:value="${quote.id}"/>
                     <button style="font-size: small; background-color: black; color: white; font-weight: bold" name="id"
@@ -64,5 +79,16 @@
     </table>
 </div>
 <div th:include="footer :: footerFragment"></div>
+<script type="text/javascript">
+    function hideOwnQuoteDisplayRandomQuote() {
+        document.getElementById("addQuote").style.display = "none";
+        document.getElementById("randomQuote").style.display = "block";
+    }
+
+    function displayOwnQuoteHideRandomQuote() {
+        document.getElementById("addQuote").style.display = "block";
+        document.getElementById("randomQuote").style.display = "none";
+    }
+</script>
 </body>
 </html>

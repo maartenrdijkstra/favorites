@@ -7,47 +7,60 @@
     <br>
 
     <h2>Pick a random joke</h2>
-    <a href="javascript: document.devJokeForm.submit()">Dev Joke</a>
+    <a href="javascript: document.devJokeForm.submit(); hideInputDisplayRandom()">Dev Joke</a>
     <form th:action="@{/devJoke}" name="devJokeForm" hidden>
         <button type="submit"></button>
     </form>
     &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <a href="javascript: document.chuckNorrisJokeForm.submit()">Chuck Norris Joke</a>
+    <a href="javascript: document.chuckNorrisJokeForm.submit(); hideInputDisplayRandom()">Chuck Norris Joke</a>
 
     <form th:action="@{/chuckNorrisJoke}" name="chuckNorrisJokeForm" hidden>
         <button type="submit"></button>
     </form>
     &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    <a href="javascript: document.regularJokeForm.submit()">Regular Joke</a>
+    <a href="javascript: document.regularJokeForm.submit(); hideInputDisplayRandom()">Regular Joke</a>
     <form th:action="@{/regularJoke}" name="regularJokeForm" hidden>
+        <button type="submit"></button>
+    </form>
+    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="javascript: displayInputHideRandom()">Add your own joke</a>
+    <form th:action="@{/ownJoke}" hidden>
         <button type="submit"></button>
     </form>
 
     <br>
     <br>
-    <br>
-    <p th:text="${jokeToAdd}" style="font-size: 30px; font-weight: bold"></p>
-    <br>
-
-    <div th:if="${jokeToAdd != ''} and ${jokeToAdd != null}">
+    <div class="text-center" id="addJoke" style="display: none">
         <form th:action="@{/jokes}" method="post">
-            <input type="text" hidden th:value="${jokeToAdd}" name="jokeToAdd">
+            <input type="text" name="jokeToAdd" th:value="${jokeToAdd}" size="60" required/>
             <button type="submit" class="btn btn-primary btn-sm">Add Joke</button>
         </form>
     </div>
     <br>
+    <p th:if="${jokeToAdd != null}" th:text="${jokeToAdd}" style="font-size: 30px; font-weight: bold"></p>
     <br>
-    <table class="table table-striped text-center" th:if="${!userJokes.empty}">
+
+    <div id="randomJoke">
+        <div th:if="${jokeToAdd != ''} and ${jokeToAdd != null}">
+            <form th:action="@{/jokes}" method="post">
+                <input type="text" hidden th:value="${jokeToAdd}" name="jokeToAdd">
+                <button type="submit" class="btn btn-primary btn-sm">Add Joke</button>
+            </form>
+        </div>
+        <br><br>
+    </div>
+
+    <table class="table table-striped text-center" th:if="${not userJokes.empty}">
         <thead>
         <tr>
             <th class="text-start" style="font-size: large">Favorite Jokes</th>
-            <th>Delete</th>
+            <th class="text-start">Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="joke : ${userJokes}">
             <td class="text-start"><span th:text="${joke.favoriteJoke}"> Title </span></td>
-            <td>
+            <td class="text-start">
                 <form th:action="@{/deleteJoke}" method="post">
                     <input type="hidden" name="id" th:value="${joke.id}"/>
                     <button style="font-size: small; background-color: black; color: white; font-weight: bold" name="id"
@@ -60,5 +73,16 @@
     </table>
 </div>
 <div th:include="footer :: footerFragment"></div>
+<script type="text/javascript">
+    function hideInputDisplayRandom() {
+        document.getElementById("addJoke").style.display = "none";
+        document.getElementById("randomJoke").style.display = "block";
+    }
+
+    function displayInputHideRandom() {
+        document.getElementById("addJoke").style.display = "block";
+        document.getElementById("randomJoke").style.display = "none";
+    }
+</script>
 </body>
 </html>

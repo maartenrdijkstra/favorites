@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface JokeRepository extends JpaRepository<Joke, Long> {
-    public List<Joke> getJokesByUser(User user);
+    public List<Joke> getJokesByUserOrderByIdDesc(User user);
 }

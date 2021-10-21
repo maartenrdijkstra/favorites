@@ -24,19 +24,14 @@ public class JokeController {
     @GetMapping("/jokes")
     public String getUserJokes(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) {
         User user = User.builder().id(loggedUser.getId()).build();
-        model.addAttribute("userJokes", jokeRepository.getJokesByUser(user));
+        model.addAttribute("userJokes", jokeRepository.getJokesByUserOrderByIdDesc(user));
         model.addAttribute("pageTitle", "Favorite jokes");
 
         return "jokes";
     }
-//
-//    @GetMapping("/all_jokes")
-//    public List<Joke> getAllJokes() {
-//        return jokeRepository.findAll();
-//    }
 
     @PostMapping("/jokes")
-    public String addJokeToUser(@AuthenticationPrincipal CustomUserDetails loggedUser, @RequestParam String jokeToAdd) {
+    public String addJokeToUser(@AuthenticationPrincipal CustomUserDetails loggedUser, @RequestParam String jokeToAdd, @RequestParam(required = false) String ownJoke) {
         if (jokeToAdd.contains("?")) {
             jokeToAdd = jokeToAdd.replaceAll("[?]", "? ");
         }
@@ -63,7 +58,7 @@ public class JokeController {
     public String getDevJoke(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) throws IOException {
         User user = User.builder().id(loggedUser.getId()).build();
 
-        model.addAttribute("userJokes", jokeRepository.getJokesByUser(user));
+        model.addAttribute("userJokes", jokeRepository.getJokesByUserOrderByIdDesc(user));
         model.addAttribute("pageTitle", "Favorite jokes");
         model.addAttribute("jokeToAdd", JokeMapper.getDevJoke());
 
@@ -74,7 +69,7 @@ public class JokeController {
     public String getChuckNorrisJoke(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) throws IOException {
         User user = User.builder().id(loggedUser.getId()).build();
 
-        model.addAttribute("userJokes", jokeRepository.getJokesByUser(user));
+        model.addAttribute("userJokes", jokeRepository.getJokesByUserOrderByIdDesc(user));
         model.addAttribute("pageTitle", "Favorite jokes");
         model.addAttribute("jokeToAdd", JokeMapper.getChuckNorrisJoke());
 
@@ -85,9 +80,20 @@ public class JokeController {
     public String getRegularJoke(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) throws IOException {
         User user = User.builder().id(loggedUser.getId()).build();
 
-        model.addAttribute("userJokes", jokeRepository.getJokesByUser(user));
+        model.addAttribute("userJokes", jokeRepository.getJokesByUserOrderByIdDesc(user));
         model.addAttribute("pageTitle", "Favorite jokes");
         model.addAttribute("jokeToAdd", JokeMapper.getRegularJoke());
+
+        return "jokes";
+    }
+
+    @GetMapping("ownJoke")
+    public String getOwnJoke(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) {
+        User user = User.builder().id(loggedUser.getId()).build();
+
+        model.addAttribute("userJokes", jokeRepository.getJokesByUserOrderByIdDesc(user));
+        model.addAttribute("pageTitle", "Favorite jokes");
+        model.addAttribute("jokeToAdd", "");
 
         return "jokes";
     }

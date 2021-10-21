@@ -3,9 +3,13 @@
 <div th:include="header :: headerFragment"></div>
 <body>
 <div class="container text-center">
+  <br>
   <h1>Welcome to your favorite Favorites App!</h1>
-  <h3><a th:href="@{/register}">Register</a></h3>
-  <h3><a th:href="@{/login}">Login</a></h3>
+  <br>
+  <h3 th:if="${loggedIn == null}"><a th:href="@{/register}">Register</a>&nbsp;&nbsp;&nbsp;&nbsp;<a th:href="@{/login}">Login</a></h3>
+  <h3></h3>
+  <br>
+  <p>This is a practice project made with Spring Boot and Thymeleaf. In this app you can register your favorite books, movies, actors, quotes, jokes and countries.</p>
 </div>
 <div th:include="footer :: footerFragment"></div></body>
 </html>

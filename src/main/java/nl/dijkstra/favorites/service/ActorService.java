@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -39,10 +40,14 @@ public class ActorService {
                 }
             }
         }
+        if (filteredActors.size() == 0) {
+            return null;
+        }
+        Collections.shuffle(filteredActors);
         return filteredActors;
     }
 
     public List<Actor> getActorsByUser(User user) {
-        return actorRepository.getActorsByUser(user);
+        return actorRepository.getActorsByUserOrderByIdDesc(user);
     }
 }

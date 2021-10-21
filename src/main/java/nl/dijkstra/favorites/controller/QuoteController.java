@@ -25,16 +25,29 @@ public class QuoteController {
     @GetMapping("quotes")
     public String getUserQuotes(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) {
         User user = User.builder().id(loggedUser.getId()).build();
-        model.addAttribute("userQuotes", quoteRepository.getQuotesByUser(user));
+        model.addAttribute("userQuotes", quoteRepository.getQuotesByUserOrderByIdDesc(user));
         model.addAttribute("pageTitle", "Favorite quotes");
+        model.addAttribute("ownQuote", "");
+        model.addAttribute("ownSource", "");
 
         return "quotes";
     }
 
     @PostMapping(value = "quotes")
-    public String addQuoteToUser(@RequestParam("favoriteQuote") String favoriteQuote,
-                                 @RequestParam("source") String source,
+    public String addQuoteToUser(@RequestParam(required = false) String favoriteQuote,
+                                 @RequestParam(required = false) String source,
+                                 @RequestParam(required = false) String ownQuote,
+                                 @RequestParam(required = false) String ownSource,
                                  @AuthenticationPrincipal CustomUserDetails loggedUser) {
+
+        if(ownQuote != null && ownSource != null) {
+            favoriteQuote = ownQuote;
+            source = ownSource;
+        }
+
+        if(favoriteQuote == null) {
+            return "redirect:/quotes";
+        }
 
         Quote quote = Quote.builder()
                 .favoriteQuote(favoriteQuote)
@@ -61,7 +74,7 @@ public class QuoteController {
     public String getMovieQuote(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) throws IOException, ParseException {
         User user = User.builder().id(loggedUser.getId()).build();
 
-        model.addAttribute("userQuotes", quoteRepository.getQuotesByUser(user));
+        model.addAttribute("userQuotes", quoteRepository.getQuotesByUserOrderByIdDesc(user));
         model.addAttribute("pageTitle", "Favorite Quotes");
         Quote quote = QuoteMapper.getRandomMovieQuote();
         model.addAttribute("quoteToAdd", quote);
@@ -73,10 +86,21 @@ public class QuoteController {
     public String getWisdomQuote(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) throws IOException, ParseException {
         User user = User.builder().id(loggedUser.getId()).build();
 
-        model.addAttribute("userQuotes", quoteRepository.getQuotesByUser(user));
+        model.addAttribute("userQuotes", quoteRepository.getQuotesByUserOrderByIdDesc(user));
         model.addAttribute("pageTitle", "Favorite Quotes");
         Quote quote = QuoteMapper.getWisdomQuote();
         model.addAttribute("quoteToAdd", quote);
+
+        return "quotes";
+    }
+
+    @GetMapping("ownQuote")
+    public String getOwnQuote(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model) throws IOException, ParseException {
+        User user = User.builder().id(loggedUser.getId()).build();
+
+        model.addAttribute("userQuotes", quoteRepository.getQuotesByUserOrderByIdDesc(user));
+        model.addAttribute("pageTitle", "Favorite jokes");
+        model.addAttribute("quoteToAdd", "");
 
         return "quotes";
     }

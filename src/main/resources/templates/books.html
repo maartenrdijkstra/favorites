@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:include="header :: headerFragment"></div>
 <body>
-<div class="container-fluid">
+<div class="container text-center">
     <br>
     <br>
     <h2 class="text-center">Search and add your favorite books</h2>
@@ -11,7 +11,7 @@
         <div class="text-center">
             <form th:action="@{/books}">
                 <input type="text" name="keyword" id="keyword" size="30" th:value="${keyword}" required/>
-                &nbsp; <input type="submit" value="Search"/>
+                &nbsp; <input class="btn btn-sm btn-primary" type="submit" value="Search"/>
                 &nbsp;
             </form>
         </div>
@@ -21,8 +21,8 @@
         <table th:if="${keyword != null}" class="table table-striped text-center align-middle">
             <thead th:if="${not filteredBooks.empty}">
             <th class="text-start" style="font-size: large">Select Your Favorite Book</th>
-            <th>Author</th>
-            <th>Add to Favorites</th>
+            <th class="text-start">Author</th>
+            <th class="text-start">Add to Favorites</th>
             </thead>
             <tbody>
             <tr th:if="${filteredBooks.empty} or ${filteredBooks == null}">
@@ -30,8 +30,8 @@
             </tr>
             <tr th:each="book : ${filteredBooks}">
                 <td class="text-start"><span th:text="${book.title}"> </span></td>
-                <td><span th:text="${book.author}"> </span></td>
-                <td>
+                <td class="text-start"><span th:text="${book.author}"> </span></td>
+                <td class="text-start">
                     <form action="#" th:action="@{/books}" method="post">
                         <input hidden type="text" name="title" th:value="${book.title}">
                         <input hidden type="text" name="author" th:value="${book.author}">

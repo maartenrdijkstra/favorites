@@ -30,8 +30,8 @@ public class MovieMapper {
 
     public static List<Movie> getMovies(String query) throws IOException {
         query = query.replaceAll(" ", "+");
-        JSONObject jsonObject = JsonReader.readJsonFromUrl(getMoviesRequestUrl(query));
         try {
+            JSONObject jsonObject = JsonReader.readJsonFromUrl(getMoviesRequestUrl(query));
             JSONArray jsonArray = jsonObject.getJSONArray("Search");
             List<Movie> movies = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -41,9 +41,10 @@ public class MovieMapper {
                         .year(jsonObj.getString("Year"))
                         .build());
             }
+
             return movies;
-        } catch (RuntimeException e) {
-            return null;
+        } catch (Exception e) {
+            return Collections.emptyList();
         }
     }
 }

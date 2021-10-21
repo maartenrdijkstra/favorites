@@ -6,13 +6,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.5.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>nl.dijkstra</groupId>
     <artifactId>favorites</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Favorites App</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Your favorite Favorites App</description>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -44,12 +44,6 @@
             <version>2.5.4</version>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -106,7 +100,5 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
-
     </dependencies>
-
 </project>

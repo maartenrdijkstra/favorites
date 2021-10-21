@@ -27,7 +27,7 @@ public class MovieController {
     @GetMapping("movies")
     public String getUserMovies(@AuthenticationPrincipal CustomUserDetails loggedUser, Model model, @Param("keyword") String keyword) throws IOException {
         User user = User.builder().id(loggedUser.getId()).build();
-        model.addAttribute("userMovies", movieRepository.getMovieAndTvsByUser(user));
+        model.addAttribute("userMovies", movieRepository.getMovieAndTvsByUserOrderByIdDesc(user));
         model.addAttribute("pageTitle", "Favorite movies");
         model.addAttribute("keyword", keyword);
 

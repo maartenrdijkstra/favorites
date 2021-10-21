@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ActorRepository extends JpaRepository<Actor, Long> {
-    public List<Actor> getActorsByUser(User user);
+    public List<Actor> getActorsByUserOrderByIdDesc(User user);
 }

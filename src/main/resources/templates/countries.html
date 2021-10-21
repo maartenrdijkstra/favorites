@@ -2,34 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:include="header :: headerFragment"></div>
 <body>
-<div class="container-fluid">
+<div class="container text-center">
     <br>
     <br>
     <h2 class="text-center">Search and add your favorite countries</h2>
     <br>
 
-    <table class="table table-striped table-responsive text-center">
-        <div class="text-center">
-            <form th:action="@{/countries}">
-                <input type="text" name="keyword" id="keyword" size="30" th:value="${keyword}" required/>
-                &nbsp;
-                <input type="submit" value="Search"/>
-                &nbsp;
-            </form>
-        </div>
-    </table>
+    <div class="text-center">
+        <form th:action="@{/countries}">
+            <input type="text" name="keyword" id="keyword" size="30" th:value="${keyword}" required/>
+            &nbsp;
+            <input type="submit" value="Search"/>
+            &nbsp;
+        </form>
+    </div>
 
-    <table th:if="${filteredCountries != null} and ${keyword != null} and ${!filteredCountries.empty}" class="table table-striped text-center">
+    <p th:if="${filteredCountries == null} and ${keyword != null}" class="text-center"><br><br>This country could not be
+        found.</p>
+
+    <table th:if="${filteredCountries != null} and ${keyword != null} and ${!filteredCountries.empty}"
+           class="table table-striped text-center">
         <thead>
         <th class="text-start" style="font-size: large">Select Your Favorite Country</th>
-        <th>Add to Favorites</th>
+        <th class="text-start">Add to Favorites</th>
         </thead>
         <tbody>
         <tr th:if="${!filteredCountries.empty}" th:each="c : ${filteredCountries}">
             <td class="text-start"><span th:text="${c.name}"> </span></td>
             <form action="#" th:action="@{/countries}" method="post">
                 <input hidden type="text" name="name" th:value="${c.name}">
-                <td>
+                <td class="text-start">
                     <button type="submit" style="color:darkblue; font-size: x-large; background-color: transparent">
                         Add
                     </button>
@@ -39,17 +41,18 @@
         </tbody>
     </table>
 
-    <table class="table table-striped table-responsive text-center" th:if="${!userCountries.empty}">
+    <br><br>
+    <table class="table table-striped text-center" th:if="${!userCountries.empty}">
         <thead>
         <tr>
             <th class="text-start" style="font-size: large">Favorite Countries</th>
-            <th>Delete</th>
+            <th class="text-start">Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="country : ${userCountries}">
             <td class="text-start"><span th:text="${country.name}"> Title </span></td>
-            <td>
+            <td class="text-start">
                 <form th:action="@{/deleteCountry}" method="post">
                     <input type="hidden" name="id" th:value="${country.id}"/>
                     <button style="font-size: small; background-color: black; color: white; font-weight: bold"
