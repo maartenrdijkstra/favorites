@@ -3,42 +3,43 @@
 <div th:include="header :: headerFragment"></div>
 <body>
 
-<form th:action="@{/change_details/update}" method="post" style="max-width: 750px; margin: 0 auto"
-      enctype="multipart/form-data" class="text-center"
-      th:object="${user}">
-    <input type="hidden" th:field="*{id}"/>
+<div class="container text-center">
+    <form th:action="@{/change_details/update}" method="post" style="max-width: 750px; margin: 0 auto"
+          enctype="multipart/form-data" class="text-center"
+          th:object="${user}">
+        <input type="hidden" th:field="*{id}"/>
 
+
+        <br>
+        <h2>Change User Details:</h2>
+
+        <div th:if="${message != null}" class="alert alert-success text-center">
+            [[${message}]]
+        </div>
+        <br>
+        <label for="email">Email: </label><br><input type="email" id="email" th:field="*{email}" placeholder="Email"
+                                                     required="required" minlength="7" maxlength="35">
+        <br><br>
+        <label for="username">Username: </label><br><input type="text" id="username" th:field="*{name}"
+                                                           required="required" minlength="2" maxlength="70">
+        <br><br>
+        <label for="password">Password: </label><br> <input type="password" id="password" th:field="*{password}"
+                                                            minlength="5" maxlength="20" oninput="checkPasswords()">
+        <br><br>
+        <label for="confirm">Confirm password: </label><br><input type="password" id="confirm" minlength="5"
+                                                                  maxlength="20" oninput="checkPasswords()">
+        <br><br><br>
+        <div class="text-center">
+            <input type="submit" value="Update" class="btn btn-primary"/>
+        </div>
+    </form>
 
     <br>
-    <h2>Change User Details:</h2>
-
-    <div th:if="${message != null}" class="alert alert-success text-center">
-        [[${message}]]
-    </div>
-    <br>
-    <label for="email">Email: </label><br><input type="email" id="email" th:field="*{email}" placeholder="Email"
-                                                 required="required" minlength="7" maxlength="35">
-    <br><br>
-    <label for="username">Username: </label><br><input type="text" id="username" th:field="*{name}"
-                                                       required="required" minlength="2" maxlength="70">
-    <br><br>
-    <label for="password">Password: </label><br> <input type="password" id="password" th:field="*{password}"
-                                                        minlength="5" maxlength="20" oninput="checkPasswords()">
-    <br><br>
-    <label for="confirm">Confirm password: </label><br><input type="password" id="confirm" minlength="5"
-                                                              maxlength="20" oninput="checkPasswords()">
-    <br><br><br>
     <div class="text-center">
-        <input type="submit" value="Update" class="btn btn-primary"/>
+        <p>Back to <a th:href="@{/home}">Home Page</a></p>
     </div>
-</form>
-
-<br>
-<div class="text-center">
-    <p>Back to <a th:href="@{/home}">Home Page</a></p>
 </div>
-
 <div th:include="footer :: footerFragment"></div>
-<script src="js/main.js"></script>
+<script src="js/checkPasswords.js"></script>
 </body>
 </html>

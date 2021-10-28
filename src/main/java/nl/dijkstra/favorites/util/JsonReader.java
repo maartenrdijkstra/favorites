@@ -5,13 +5,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Random;
 
 public class JsonReader {
 
-    private static String readAll(Reader rd) throws IOException {
+    public static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;
         while ((cp = rd.read()) != -1) {
@@ -32,21 +33,35 @@ public class JsonReader {
         }
     }
 
-    public static JSONArray readJsonArrayFromUrl(String url) throws IOException, JSONException {
-        InputStream is = new URL(url).openStream();
+    public static JSONObject readJsonFromUrlWithHeader(String urlStr) throws IOException {
+        URL url = new URL(urlStr);
+        HttpURLConnection myURLConnection = (HttpURLConnection) url.openConnection();
+        myURLConnection.setRequestProperty("Accept", "application/json");
+        myURLConnection.setRequestMethod("GET");
+
+        InputStream inputStream = myURLConnection.getInputStream();
+
+        BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
+        String jsonText = JsonReader.readAll(rd);
+        return new JSONObject(jsonText);
+    }
+
+    public static JSONArray readJsonArrayFromUrl(String urlStr) throws IOException, JSONException {
+        URL url = new URL(urlStr);
+        HttpURLConnection myURLConnection = (HttpURLConnection) url.openConnection();
+        myURLConnection.setRequestProperty("Accept", "application/json");
+        myURLConnection.setRequestMethod("GET");
+
+        InputStream inputStream = myURLConnection.getInputStream();
+
         try {
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
             JSONArray json = new JSONArray(jsonText);
             return json;
         } finally {
-            is.close();
+            inputStream.close();
         }
-    }
-
-    public static String getJsonObjectString(String url) throws IOException {
-        JSONObject jsonObject = JsonReader.readJsonFromUrl(url);
-        return jsonObject.toString();
     }
 
     public static String getJsonFirstObjectString(String url) throws IOException {

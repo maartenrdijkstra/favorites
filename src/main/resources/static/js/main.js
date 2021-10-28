@@ -1,8 +1,9 @@
-function checkPasswords() {
-    if (document.getElementById('confirm').value !== document.getElementById('password').value) {
-        document.getElementById("confirm").setCustomValidity("Passwords do not match!");
-    } else {
-        document.getElementById("confirm").setCustomValidity("");
-    }
-}
+$(document).ready(function() {
 
+    var docHeight = $(window).height();
+    var footerHeight = $('#footer').height();
+    var footerTop = $('#footer').position().top + footerHeight;
+
+    if (footerTop < docHeight)
+        $('#footer').css('margin-top', 10+ (docHeight - footerTop) + 'px');
+});
