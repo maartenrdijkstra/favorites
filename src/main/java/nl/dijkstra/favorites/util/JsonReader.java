@@ -8,7 +8,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Random;
 
 public class JsonReader {
 
@@ -31,19 +30,6 @@ public class JsonReader {
         } finally {
             is.close();
         }
-    }
-
-    public static JSONObject readJsonFromUrlWithHeader(String urlStr) throws IOException {
-        URL url = new URL(urlStr);
-        HttpURLConnection myURLConnection = (HttpURLConnection) url.openConnection();
-        myURLConnection.setRequestProperty("Accept", "application/json");
-        myURLConnection.setRequestMethod("GET");
-
-        InputStream inputStream = myURLConnection.getInputStream();
-
-        BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
-        String jsonText = JsonReader.readAll(rd);
-        return new JSONObject(jsonText);
     }
 
     public static JSONArray readJsonArrayFromUrl(String urlStr) throws IOException, JSONException {
@@ -86,9 +72,18 @@ public class JsonReader {
         return result.toString();
     }
 
-    public static String getRandomJsonObjectString(String url) throws IOException {
-        JSONArray jsonArray = readJsonArrayFromUrl(url);
-        Random r = new Random();
-        return jsonArray.get(r.nextInt(jsonArray.length())).toString();
+    public static String getStringRestResponse(String urlStr) throws IOException {
+        URL url = new URL(urlStr);
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        http.setRequestProperty("Accept", "text/plain");
+        http.disconnect();
+        InputStream is = http.getInputStream();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
     }
 }

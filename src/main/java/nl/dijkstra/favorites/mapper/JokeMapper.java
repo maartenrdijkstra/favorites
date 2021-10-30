@@ -2,7 +2,6 @@ package nl.dijkstra.favorites.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.dijkstra.favorites.util.JsonReader;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,20 +24,17 @@ public class JokeMapper {
 
     public static String getChuckNorrisJoke() {
         try {
-            JSONObject json = JsonReader.readJsonFromUrlWithHeader("https://geek-jokes.sameerkumar.website/api?format=json");
-            return json.getString("joke");
-
+            return JsonReader.getStringRestResponse("https://api.chucknorris.io/jokes/random");
         } catch (Exception e) {
             e.printStackTrace();
+
             return "When Chuck Norris does a pushup, he’s pushing the Earth down.";
         }
     }
 
     public static String getRegularJoke() {
         try {
-            JSONObject json = JsonReader.readJsonFromUrlWithHeader("https://icanhazdadjokes.com");
-
-            return json.getString("joke");
+            return JsonReader.getStringRestResponse("https://icanhazdadjoke.com/");
         } catch (Exception e) {
             e.printStackTrace();
             return "What did the fish say when he swam into a wall? Dam";

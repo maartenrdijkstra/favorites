@@ -5,7 +5,9 @@ import nl.dijkstra.favorites.entity.Quote;
 import nl.dijkstra.favorites.util.JsonReader;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import static nl.dijkstra.favorites.util.JsonReader.readLocalJsonFile;
 
@@ -29,13 +31,18 @@ public class QuoteMapper {
 
     public static Quote getWisdomQuote() throws IOException {
         try {
-            String json = JsonReader.getRandomJsonObjectString("https://type.fit/api/quotes");
-            Map<String, String> map = mapper.readValue(json, HashMap.class);
+            String response = JsonReader.getStringRestResponse("https://type.fit/api/quotes");
+
+            List<Map<String, String>> listMap = mapper.readValue(response, List.class);
+            Random rand = new Random();
+            Map<String, String> randomQuote = listMap.get(rand.nextInt(listMap.size()));
+
         return Quote.builder()
-                .favoriteQuote("\"" + map.get("text") + "\"")
-                .source(map.get("author"))
+                .favoriteQuote("\"" + randomQuote.get("text") + "\"")
+                .source(randomQuote.get("author"))
                 .build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Quote.builder()
                     .favoriteQuote("Nothing is impossible, the word itself says 'I'm possible'!")
                     .source("Audrey Hepburn")
